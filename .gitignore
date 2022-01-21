@@ -1,4 +1,5 @@
 .stack-work/
 aozora-novel.cabal
+*.db
 *.env
 *.html

@@ -1,0 +1,4 @@
+.stack-work/
+aozora-novel.cabal
+*.env
+*.html

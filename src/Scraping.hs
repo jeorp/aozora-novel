@@ -30,6 +30,10 @@ extractNovelUrl =
   >>> proc r -> do
     getAttrValue "href" -< r
 
+extractMain = 
+ css "[class=\"main_text\"]"
+ >>> proc r -> do
+  (getText <<< deep isText) -< r
 
 parseHTML = readString 
   [ withValidate no,
@@ -43,3 +47,5 @@ scraping body parser= runX (parseHTML body >>> parser)
 
 getUrlsFromRanking :: String -> IO [(String, String, String)]
 getUrlsFromRanking url = undefined
+
+

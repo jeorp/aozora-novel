@@ -3,3 +3,4 @@ aozora-novel.cabal
 *.db
 *.env
 *.html
+*.txt

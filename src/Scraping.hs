@@ -6,24 +6,29 @@ import Network.HTTP.Simple
 import Text.XML.HXT.Core
 import Text.XML.HXT.CSS
 import Download
+import Control.Arrow
 
-
+aozora = "https://www.aozora.gr.jp"
 
 atTagCase tag = deep (isElem >>> hasNameWith ((== tag') . upper . localPart))
   where tag' = upper tag
         upper = map toUpper
+
+onA = proc r -> do
+  a <- atTagCase "a" -< r
+  url <- getAttrValue "href" -< a
+  title <- (getText <<< deep isText) -< a
+  returnA -< (url, title)
 
 extractRanking =
   atTagCase "tr"
   >>> proc r -> do
     xs <- listA onA -< r
     returnA -< xs
-  where
-    onA = proc r -> do
-      a <- atTagCase "a" -< r
-      url <- getAttrValue "href" -< a
-      title <- (getText <<< deep isText) -< a
-      returnA -< (url, title)
+
+extractAuthorWorks = 
+  atTagCase "li"
+  >>> onA
 
 
 extractNovelUrl = 
@@ -73,3 +78,9 @@ getNovelFromEntry entry_url = do
   novelHtml <- convertFromJis =<< downloadHtml (base <> workUrl)
   concat <$> scraping novelHtml extractMain
 
+getAuthorWorks :: String -> IO [(String, String)]
+getAuthorWorks url = do
+  s <- convertFromJis =<< downloadHtml url
+  fmap (first ((aozora ++) . truncate)) <$> scraping s extractAuthorWorks
+  where
+    truncate = dropWhile (== '.')

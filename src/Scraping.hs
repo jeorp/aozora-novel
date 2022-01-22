@@ -62,5 +62,14 @@ getUrlsFromRanking url = do
     f [] = []
 
     validate = dropWhile (== '\n')
-        
+
+getNovelFromEntry :: String -> IO String
+getNovelFromEntry entry_url = do
+  s <- convertFromJis =<< downloadHtml entry_url
+  xs <- scraping s extractNovelUrl
+  let workUrl = dropWhile (== '.') $ last xs
+      base = reverse  $ tail $ dropWhile (/= '/') $ reverse entry_url
+  putStrLn $ "Downloading from " <> base <> workUrl
+  novelHtml <- convertFromJis =<< downloadHtml (base <> workUrl)
+  concat <$> scraping novelHtml extractMain
 

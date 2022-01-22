@@ -7,8 +7,8 @@ dependencies:
 - text-icu
 - time
 - directory
-- pandoc
 - sqlite-simple
+- resource-pool
 - mtl
 - free
 - extensible

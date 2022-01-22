@@ -4,11 +4,13 @@ dependencies:
 - base
 - text
 - bytestring
+- time
 - pandoc
 - sqlite-simple
 - mtl
 - free
 - extensible
+- microlens
 - http-conduit
 - http-client
 - hxt

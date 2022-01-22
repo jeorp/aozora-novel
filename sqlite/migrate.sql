@@ -5,7 +5,7 @@ create table content (
   created_at text default CURRENT_TIMESTAMP,
   title text,
   html_path text,
-  author_id text,
+  author text,
   shiori int
 );
 

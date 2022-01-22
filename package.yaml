@@ -4,6 +4,7 @@ dependencies:
 - base
 - text
 - bytestring
+- text-icu
 - time
 - directory
 - pandoc
@@ -12,8 +13,9 @@ dependencies:
 - free
 - extensible
 - microlens
+- network-uri
+- HTTP
 - http-conduit
-- http-client
 - hxt
 - hxt-css
 - hspec

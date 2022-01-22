@@ -1,9 +1,7 @@
 {-# LANGUAGE Arrows, NoMonomorphismRestriction #-}
+
 module Scraping where
 import Data.Char
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
-import qualified Data.ByteString.Lazy.Char8 as LB
 import Network.HTTP.Simple
 import Text.XML.HXT.Core
 import Text.XML.HXT.CSS
@@ -26,7 +24,7 @@ extractRanking =
       title <- (getText <<< deep isText) -< a
       returnA -< (url, title)
 
-extractNovelUrl :: ArrowXml cat => cat XmlTree String
+
 extractNovelUrl = 
   css "[align=\"right\"] > a + a"
   >>> proc r -> do
@@ -41,10 +39,7 @@ parseHTML = readString
 
 scraping body parser= runX (parseHTML body >>> parser)
 
-donwloadHtml :: String -> IO String
-donwloadHtml url = do
-  request <- parseRequest url
-  T.unpack . T.decodeUtf8 . getResponseBody <$> httpBS request
+
 
 getUrlsFromRanking :: String -> IO [(String, String, String)]
 getUrlsFromRanking url = undefined

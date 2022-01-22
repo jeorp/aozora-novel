@@ -3,8 +3,10 @@ module ScrapingSpec where
 
 import Test.Hspec
 import System.Directory
+import qualified Data.ByteString.Char8 as B 
 import Control.Monad 
 import Scraping
+import Download
 --import Text.XML.HXT.Core
 
 
@@ -39,3 +41,6 @@ spec = do
 
     it "test 2" $ do
       test2 `shouldReturn` ()
+    
+    it "test 3" $ do
+      (downloadHtml "https://www.aozora.gr.jp/cards/000119/files/624_14544.html" >>= convertFromJis >>= writeFile "novel.html") `shouldReturn` ()

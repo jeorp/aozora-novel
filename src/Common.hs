@@ -20,7 +20,7 @@ type ContentFiled =
   "created_at" :> UTCTime,
   "title" :> T.Text,
   "html_path" :> T.Text,
-  "author" :> Int,
+  "author" :> T.Text,
   "shiori" :> Int
  ]
 

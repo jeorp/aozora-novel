@@ -1,8 +1,10 @@
 {-# LANGUAGE Arrows, NoMonomorphismRestriction #-}
 module Scraping where
 import Data.Char
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
 import qualified Data.ByteString.Lazy.Char8 as LB
-import Network.HTTP.Client
+import Network.HTTP.Simple
 import Text.XML.HXT.Core
 import Text.XML.HXT.CSS
 
@@ -41,9 +43,8 @@ scraping body parser= runX (parseHTML body >>> parser)
 
 donwloadHtml :: String -> IO String
 donwloadHtml url = do
-  manager <- newManager defaultManagerSettings
   request <- parseRequest url
-  LB.unpack . responseBody <$> httpLbs request manager
+  T.unpack . T.decodeUtf8 . getResponseBody <$> httpBS request
 
 getUrlsFromRanking :: String -> IO [(String, String, String)]
 getUrlsFromRanking url = undefined
